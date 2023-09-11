@@ -1,0 +1,64 @@
+/* Background color for the header */
+header {
+    background-color: #82A0D8;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Background color for the main content area */
+main {
+    background-color: #68f1cf;
+    padding: 20px;
+}
+
+/* Search input and button styles */
+.search input[type="text"],
+.search button {
+    background-color: #8ECDDD;
+    color: #000;
+    border: none;
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Search button hover effect */
+.search button:hover {
+    background-color: #EDB7ED;
+    cursor: pointer;
+}
+
+/* Weather info and forecast container styles */
+.weather-info, .forecast {
+    background-color: #8ECDDD;
+    color: #000;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+/* Search history */
+.search-history {
+    background-color: #8ECDDD;
+    color: #000;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+/* Individual search history items */
+.history-item {
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+    background-color: #82A0D8;
+    color: #fff;
+    border-radius: 5px;
+}
+
+/* Individual search history items on hover */
+.history-item:hover {
+    background-color: #8DDFCB;
+}
