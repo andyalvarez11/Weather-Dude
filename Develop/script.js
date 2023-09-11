@@ -1,8 +1,7 @@
-// Replace 'YOUR_API_KEY' with your actual OpenWeather API key
-const apiKey = 'YOUR_API_KEY';
+const apiKey = '9ca1157b2fdd9daf3108043b0f7032d0';
 const apiUrl = 'https://api.openweathermap.org/data/2.5/';
 
-// Function to fetch current weather data
+// Fetch current weather data
 async function getCurrentWeather(city) {
     try {
         const response = await fetch(`${apiUrl}weather?q=${city}&appid=${apiKey}&units=metric`);
@@ -14,7 +13,7 @@ async function getCurrentWeather(city) {
     }
 }
 
-// Function to fetch 5-day forecast data
+// Fetch 5-day forecast data
 async function getForecast(city) {
     try {
         const response = await fetch(`${apiUrl}forecast?q=${city}&appid=${apiKey}&units=metric`);
@@ -25,36 +24,46 @@ async function getForecast(city) {
     }
 }
 
-// Function to display current weather
+// Display current weather
 function displayCurrentWeather(data) {
     const weatherInfo = document.querySelector('.weather-info');
-    weatherInfo.innerHTML = `
-        <h2>${data.name}, ${data.sys.country}</h2>
-        <p>Date: ${new Date(data.dt * 1000).toLocaleDateString()}</p>
-        <p>Temperature: ${data.main.temp}°C</p>
-        <p>Humidity: ${data.main.humidity}%</p>
-        <p>Wind Speed: ${data.wind.speed} m/s</p>
-    `;
-}
-
-// Function to display 5-day forecast
-function displayForecast(data) {
-    const forecast = document.querySelector('.forecast');
-    forecast.innerHTML = '';
-    const dailyData = data.list.filter(item => item.dt_txt.includes('12:00:00'));
-    for (const day of dailyData) {
-        forecast.innerHTML += `
-            <div class="forecast-day">
-                <p>Date: ${new Date(day.dt * 1000).toLocaleDateString()}</p>
-                <p>Temperature: ${day.main.temp}°C</p>
-                <p>Humidity: ${day.main.humidity}%</p>
-                <p>Wind Speed: ${day.wind.speed} m/s</p>
-            </div>
+    if (data && data.name && data.sys && data.sys.country) {
+        weatherInfo.innerHTML = `
+            <h2>${data.name}, ${data.sys.country}</h2>
+            <p>Date: ${new Date(data.dt * 1000).toLocaleDateString()}</p>
+            <p>Temperature: ${data.main.temp}°C</p>
+            <p>Humidity: ${data.main.humidity}%</p>
+            <p>Wind Speed: ${data.wind.speed} m/s</p>
         `;
+    } else {
+        weatherInfo.innerHTML = '<p>Weather data not available for this location.</p>';
     }
 }
 
-// Function to update search history
+// Display 5-day forecast
+function displayForecast(data) {
+    const forecast = document.querySelector('.forecast');
+    forecast.innerHTML = '';
+    
+    if (data && Array.isArray(data.list)) {
+        const dailyData = data.list.filter(item => item.dt_txt.includes('12:00:00'));
+        for (const day of dailyData) {
+            forecast.innerHTML += `
+                <div class="forecast-day">
+                    <p>Date: ${new Date(day.dt * 1000).toLocaleDateString()}</p>
+                    <p>Temperature: ${day.main.temp}°C</p>
+                    <p>Humidity: ${day.main.humidity}%</p>
+                    <p>Wind Speed: ${day.wind.speed} m/s</p>
+                </div>
+            `;
+        }
+    } else {
+        forecast.innerHTML = '<p>Forecast data not available for this location.</p>';
+    }
+}
+
+
+// Update search history
 function addToSearchHistory(city) {
     const searchHistory = document.querySelector('.search-history');
     const historyItem = document.createElement('div');
@@ -67,7 +76,7 @@ function addToSearchHistory(city) {
     searchHistory.appendChild(historyItem);
 }
 
-// Function to handle search
+// Handle search
 function handleSearch() {
     const city = document.getElementById('cityInput').value;
     getCurrentWeather(city);
@@ -77,5 +86,3 @@ function handleSearch() {
 // Event listener for the search button
 document.getElementById('searchBtn').addEventListener('click', handleSearch);
 
-// Initial code to load the weather dashboard
-// You can add more functionality here
